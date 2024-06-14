@@ -1,29 +1,32 @@
-def resizeList(l = list):
-  words = l[0].split()
-  return words
+import requests
+import string
+from bs4 import BeautifulSoup
+import database
 
+url = "https://wordunscrambler.me/wordle-words-starting-with/a"
+wordle_db = database.WordleDatabase()
 
-class WordleList():
-  def __init__(self, list):
-    self.l = list
-  
-  def clean(self):
-    self.l = resizeList(self.l)
-    for x in self.l:
-      assert len(x) == 5
+def scrape_wordle_words (url, word_list):
+  response = requests.get(url)
+  soup = BeautifulSoup(response.text, 'html.parser')
 
-  def returnList(self):
-    resizeList(self.l)
-    return self.l
+  for li in soup.find_all('li'):
+      a_tag = li.find('a')
+      if a_tag:
+          word = a_tag.get('data-word')
+          if word:
+              word_list.append(word)
 
-class WordleDict():
-  def __init__():
-      d = {}
+word_dictionary = []
+all_letters = list(string.ascii_lowercase)
 
-aWords = ['aback abase abate abbey abbot abhor abide abled abode abort about above abuse abyss acorn acrid actor acute adage adapt adept admin admit adobe adopt adore adorn adult affix afire afoot afoul after again agape agate agent agile aging aglow agony agree ahead aider aisle alarm album alert algae alibi alien align alike alive allay alley allot allow alloy aloft alone along aloof aloud alpha altar alter amass amaze amber amble amend amiss amity among ample amply amuse angel anger angle angry angst anime ankle annex annoy annul anode antic anvil aorta apart aphid aping apnea apple apply apron aptly arbor ardor arena argue arise armor aroma arose array arrow arson artsy ascot ashen aside askew assay asset atoll atone attic audio audit augur aunty avail avert avian avoid await awake award aware awash awful awoke axial axiom axion azure']
-words = WordleList(aWords)
-print(words.returnList())
+for letter in all_letters:
+    url = "https://wordunscrambler.me/wordle-words-starting-with/" + letter
+    scrape_wordle_words(url, word_dictionary)
 
+check_list = []
+for word in word_dictionary:
+    if len(word) == 5:
+        check_list.append(word)
 
-
-# lDict = WordleDict()
+assert len(check_list) == len(word_dictionary)
