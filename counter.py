@@ -111,3 +111,45 @@ def calc_loc_score(score_dict, probability_list, word_list):
 calc_loc_score(loc_word_score, prob_totals, words_list)
 
 # print(loc_word_score)
+
+#Standardize the Dictionary
+def standardize_dict(word_dict):
+    values = list(word_dict.values())
+    mean = sum(values) / len(values)
+    stddev = (sum((x - mean) ** 2 for x in values) / len(values)) ** 0.5
+
+    # Standardize the values
+    new_dict = {}
+    for word, value in word_dict.items():
+        standardized_value = (value - mean) / stddev
+        new_dict[word] = standardized_value
+
+    order_dict(new_dict)
+    return new_dict
+
+stand_word_score = standardize_dict(word_score)
+stand_loc_score = standardize_dict(loc_word_score)
+
+# print(stand_loc_score)
+
+#Combine the two
+
+def overall_score(word_dict, loc_dict, word_list):
+  """
+  Where both dicts have already been standardized.
+  """
+  final_score = {}
+  for word in word_list:
+    w_score = word_dict[word]
+    loc_score = loc_dict[word]
+    mean = (w_score + loc_score) / 2
+    final_score[word] = mean
+
+  order_dict(final_score)
+  return final_score
+
+final_word_dict = overall_score(stand_word_score, stand_loc_score, words_list)
+
+print("Complete word score:", list(stand_word_score)[:5])
+print("Letter location score:", list(stand_loc_score)[:5])
+print("Final scoring:", list(final_word_dict)[:5])
