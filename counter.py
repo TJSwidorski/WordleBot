@@ -150,6 +150,6 @@ def overall_score(word_dict, loc_dict, word_list):
 
 final_word_dict = overall_score(stand_word_score, stand_loc_score, words_list)
 
-print("Complete word score:", list(stand_word_score)[:5])
-print("Letter location score:", list(stand_loc_score)[:5])
-print("Final scoring:", list(final_word_dict)[:5])
+# print("Complete word score:", list(stand_word_score)[:5])
+# print("Letter location score:", list(stand_loc_score)[:5])
+# print("Final scoring:", list(final_word_dict)[:5])
