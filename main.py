@@ -43,12 +43,11 @@ if __name__ == '__main__':
   while (game_over is False) or (i == 6):
     i += 1
     removed_letters = words_dict.return_removed_letters()
-    print('Removed letters: ', removed_letters)
     best_word = words_dict.best_word()
     print('Now, please input the results.\n')
     game_over = iterate_dict(words_dict, best_word, removed_letters)
     if game_over:
-      print(f'\n\n\nCongrats on getting the wordle in {i}!')
+      print(f'\n\n\n***** Congrats on getting the wordle in {i}! *****')
     else:
       print('\n\n\nThe next best word is: ', words_dict.best_word())
     
