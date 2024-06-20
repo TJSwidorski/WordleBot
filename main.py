@@ -14,21 +14,21 @@ def check_win(color_list):
 
 def iterate_dict(words_dict, word, removed_letters):
   color_list = []
+  tuple_list = []
   for i in range(5):
     n = i + 1
     print("Valid Options: \'Green\' (G), \'Yellow\' (Y), or \'Black\' (B)")
     color = input(f'Letter {n} Color Results: ')
+    tup = (color, word[i], i)
+    tuple_list.append(tup)
     if (color.lower() == 'green') or (color.lower() == 'g'):
       color_list.append(color.lower())
-      words_dict.require_correct_location(word[i], i)
     elif (color.lower() == 'yellow') or (color.lower() == 'y'):
       color_list.append(color.lower())
-      words_dict.require_wrong_location(word[i], i)
     elif (color.lower() == 'black') or (color.lower() == 'b'):
       color_list.append(color.lower())
-      if word[i] not in removed_letters:
-        words_dict.remove_letter(word[i])
 
+  words_dict.update(tuple_list)
   return check_win(color_list)
   
 

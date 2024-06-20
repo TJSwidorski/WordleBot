@@ -56,3 +56,30 @@ class EditDictionary():
     if self.__word_dict:
       return next(iter(self.__word_dict))
     else: return None
+
+  def update(self, tuple_list):
+    """
+    The tuple list is a list of the inputs where the color of the letter space
+    is first and the letter is second.
+    Example: l = [('b', 'c', 0), ('b', 'o', 1), ('g', 'a', 2), ('g', 'c', 3), 
+    ('y', 'h', 4)]. Where the word is 'coach' and the colors by letters are: 
+    black, black, green, green, yellow and the numbers represent the 0-based
+    indexes of the letter locations in the word.
+    """
+    sorted_tuple_list = sorted(tuple_list, key=lambda x: x[0], reverse=True)
+
+    word = ''
+    for _, letter, _ in tuple_list:
+      word += letter
+
+    for i in range(5):
+      color = sorted_tuple_list[i][0]
+      letter = sorted_tuple_list[i][1]
+      index = sorted_tuple_list[i][2]
+      if (color.lower() == 'green') or (color.lower() == 'g'):
+        self.require_correct_location(letter, index)
+      elif (color.lower() == 'yellow') or (color.lower() == 'y'):
+        self.require_wrong_location(letter, index)
+      elif (color.lower() == 'black') or (color.lower() == 'b'):
+        if letter not in self.__removed_letters:
+          self.remove_letter(letter)               
