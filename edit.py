@@ -5,6 +5,10 @@ class EditDictionary():
     self.__word_dict = word_dict
     self.__removed_letters = []
     self.__required_letters = []
+
+  def remove_words(self, removable_words):
+    for word in removable_words:
+      self.__word_dict.pop(word)
     
   def remove_letter(self, letter):
       if letter in self.__required_letters:
@@ -16,8 +20,8 @@ class EditDictionary():
       else:
         self.__removed_letters.append(letter)
         words_to_remove = [word for word in self.__word_dict if letter in word]
-      for word in words_to_remove:
-        self.__word_dict.pop(word)
+      
+      self.remove_words(words_to_remove)
   
   def require_correct_location(self, letter, location):
     self.__required_letters.append(letter)
@@ -28,8 +32,7 @@ class EditDictionary():
       elif letter not in word:
          words_to_remove.append(word) 
     
-    for word in words_to_remove:
-       self.__word_dict.pop(word)
+    self.remove_words(words_to_remove)
 
 
   def require_wrong_location(self, letter, location):
@@ -41,8 +44,7 @@ class EditDictionary():
       elif letter not in word:
           words_to_remove.append(word) 
     
-    for word in words_to_remove:
-        self.__word_dict.pop(word)
+    self.remove_words(words_to_remove)
 
   def return_dict(self):
     return self.__word_dict
@@ -54,13 +56,3 @@ class EditDictionary():
     if self.__word_dict:
       return next(iter(self.__word_dict))
     else: return None
-
-# wd = counter.final_word_dict
-
-# ed = EditDictionary(wd)
-
-# ed.require_correct_location('s', 0)
-# ed.remove_letter('s')
-
-# ans = len(ed.return_dict())
-# print(ans)
