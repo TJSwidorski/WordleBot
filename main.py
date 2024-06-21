@@ -12,7 +12,7 @@ def check_win(color_list):
   color_set = set(color_list)
   return (len(color_set) == 1) and (color_set.pop() in ['green', 'g'])
 
-def iterate_dict(words_dict, word, removed_letters):
+def iterate_dict(words_dict, word):
   word = word.lower()
   color_list = []
   tuple_list = []
@@ -36,6 +36,8 @@ def iterate_dict(words_dict, word, removed_letters):
   
 if __name__ == '__main__':
   print('\nHello and welcome to WordleBot!\n')
+  print('Please note WordleBot is very sensitive and any typos will cause errors.\n')
+  print('Please try to be as accurate as possible when entering information. Thank you!\n\n')
   best_word = words_dict.best_word()
   print(f'The best first word is: {best_word}\n')
 
@@ -44,10 +46,9 @@ if __name__ == '__main__':
   while (game_over is False) or (i == 6):
     i += 1
     removed_letters = words_dict.return_removed_letters()
-    print('The suggested word is: ', words_dict.best_word())
     best_word = input('\nWhat word will you input: ')
     print('\n\nNow, please input the results.\n')
-    game_over = iterate_dict(words_dict, best_word, removed_letters)
+    game_over = iterate_dict(words_dict, best_word)
     if game_over:
       print(f'\n\n\n***** Congrats on getting the wordle in {i}! *****')
     else:
