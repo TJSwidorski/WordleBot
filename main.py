@@ -10,9 +10,10 @@ words_dict = edit.EditDictionary(words_dict)
 
 def check_win(color_list):
   color_set = set(color_list)
-  return (len(color_set) == 1) and (color_set.pop() == 'green' or 'g')
+  return (len(color_set) == 1) and (color_set.pop() in ['green', 'g'])
 
 def iterate_dict(words_dict, word, removed_letters):
+  word = word.lower()
   color_list = []
   tuple_list = []
   for i in range(5):
@@ -43,8 +44,9 @@ if __name__ == '__main__':
   while (game_over is False) or (i == 6):
     i += 1
     removed_letters = words_dict.return_removed_letters()
-    best_word = words_dict.best_word()
-    print('Now, please input the results.\n')
+    print('The suggested word is: ', words_dict.best_word())
+    best_word = input('\nWhat word will you input: ')
+    print('\n\nNow, please input the results.\n')
     game_over = iterate_dict(words_dict, best_word, removed_letters)
     if game_over:
       print(f'\n\n\n***** Congrats on getting the wordle in {i}! *****')
