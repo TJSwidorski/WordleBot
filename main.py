@@ -4,7 +4,7 @@ import counter
 
 import sqlite3
 
-words_dict = counter.final_word_dict
+words_dict = counter.loc_word_score
 
 words_dict = edit.EditDictionary(words_dict)
 
@@ -55,3 +55,6 @@ if __name__ == '__main__':
       print('\n\n\nThe next best word is: ', words_dict.best_word())
     
   print('\n\nThank you for using WordleBot!')
+
+  #Remove duplicates for best first word
+  #Create scoring systems based on the letters left
