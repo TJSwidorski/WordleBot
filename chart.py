@@ -56,3 +56,17 @@ if __name__ == '__main__':
   average_graph.scatter()
   average_graph.flip_scatter()
   average_graph.histogram()
+
+  letter_dict_sum = simulate.WordleSimulation(words_list, letter_dict)
+  letter_dict_sum.simulate()
+  letter_graph = WordleGraph(letter_dict_sum.get_sim_results())
+  letter_graph.scatter()
+  letter_graph.flip_scatter()
+  letter_graph.histogram()
+
+  location_dict_sum = simulate.WordleSimulation(words_list, letter_dict)
+  location_dict_sum.simulate()
+  location_graph = WordleGraph(average_dict_sum.get_sim_results())
+  location_graph.scatter()
+  location_graph.flip_scatter()
+  location_graph.histogram()
