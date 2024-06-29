@@ -142,7 +142,9 @@ def overall_score(word_dict, loc_dict, word_list):
   for word in word_list:
     w_score = word_dict[word]
     loc_score = loc_dict[word]
-    mean = (w_score + loc_score) / 2
+    w_weight = 0.22
+    loc_weight = 0.78
+    mean = (w_weight * w_score) + (loc_weight * loc_score)
     final_score[word] = mean
 
   order_dict(final_score)

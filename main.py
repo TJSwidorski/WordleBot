@@ -4,7 +4,7 @@ import counter
 
 import sqlite3
 
-words_dict = counter.loc_word_score
+words_dict = counter.final_word_dict
 
 words_dict = edit.EditDictionary(words_dict)
 
