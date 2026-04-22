@@ -66,23 +66,27 @@ class WordleSimulation():
 CONN = sqlite3.connect('WordleDictionary.db')
 
 words_list = WordleDatabase.retrieve_list(CONN, 'Words List')
+used_words = set(WordleDatabase.get_used_words(CONN))
+unused_words_list = [w for w in words_list if w not in used_words]
 
 average_dict = counter.final_word_dict
 letter_dict = counter.stand_word_score
 location_dict = counter.loc_word_score
 
 if __name__ == '__main__':
-  average_dict_sim = WordleSimulation(words_list, average_dict)
+  print(f'Simulating over {len(unused_words_list)} unused words ({len(used_words)} already used).\n')
+
+  average_dict_sim = WordleSimulation(unused_words_list, average_dict)
   average_dict_sim.simulate()
   ave = average_dict_sim.average()
   print('Average solve length for average scoring system: ', ave)
 
-  letter_dict_sim = WordleSimulation(words_list, letter_dict)
+  letter_dict_sim = WordleSimulation(unused_words_list, letter_dict)
   letter_dict_sim.simulate()
   lett = letter_dict_sim.average()
   print('\nAverage solve length for letter scoring system: ', lett)
 
-  location_dict_sim = WordleSimulation(words_list, location_dict)
+  location_dict_sim = WordleSimulation(unused_words_list, location_dict)
   location_dict_sim.simulate()
   loc = location_dict_sim.average()
   print('\nAverage solve length for location scoring system: ', loc)

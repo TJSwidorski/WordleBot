@@ -6,6 +6,10 @@ class EditDictionary():
     self.__removed_letters = []
     self.__required_letters = []
 
+  def remove_used_words(self, used_words):
+    words_to_remove = [word for word in self.__word_dict if word in used_words]
+    self.remove_words(words_to_remove)
+
   def remove_words(self, removable_words):
     for word in removable_words:
       self.__word_dict.pop(word)

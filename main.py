@@ -4,6 +4,8 @@ import counter
 
 import sqlite3
 
+CONN = sqlite3.connect('WordleDictionary.db')
+
 words_dict = counter.final_word_dict
 
 words_dict = edit.EditDictionary(words_dict)
@@ -38,11 +40,18 @@ if __name__ == '__main__':
   print('\nHello and welcome to WordleBot!\n')
   print('Please note WordleBot is very sensitive and any typos will cause errors.\n')
   print('Please try to be as accurate as possible when entering information. Thank you!\n\n')
+
+  used_words = database.WordleDatabase.get_used_words(CONN)
+  if used_words:
+    words_dict.remove_used_words(used_words)
+    print(f'Excluded {len(used_words)} previously used Wordle answers.\n')
+
   best_word = words_dict.best_word()
   print(f'The best first word is: {best_word}\n')
 
   game_over = False
   i = 0
+  answer = None
   while (game_over is False) or (i == 6):
     i += 1
     removed_letters = words_dict.return_removed_letters()
@@ -50,10 +59,15 @@ if __name__ == '__main__':
     print('\n\nNow, please input the results.\n')
     game_over = iterate_dict(words_dict, best_word)
     if game_over:
+      answer = best_word.lower()
       print(f'\n\n\n***** Congrats on getting the wordle in {i}! *****')
     else:
       print('\n\n\nThe next best word is: ', words_dict.best_word())
-    
+
+  if answer:
+    database.WordleDatabase.add_used_word(CONN, answer)
+    print(f'\nRecorded "{answer}" as today\'s used Wordle answer.')
+
   print('\n\nThank you for using WordleBot!')
 
   #Remove duplicates for best first word

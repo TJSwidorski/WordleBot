@@ -41,32 +41,30 @@ class WordleGraph():
     plt.show()
   
 
-CONN = sqlite3.connect('WordleDictionary.db')
-
-words_list = WordleDatabase.retrieve_list(CONN, 'Words List')
-
 average_dict = counter.final_word_dict
 letter_dict = counter.stand_word_score
 location_dict = counter.loc_word_score
 
 if __name__ == '__main__':
-  average_dict_sum = simulate.WordleSimulation(words_list, average_dict)
+  unused_words_list = simulate.unused_words_list
+
+  average_dict_sum = simulate.WordleSimulation(unused_words_list, average_dict)
   average_dict_sum.simulate()
   average_graph = WordleGraph(average_dict_sum.get_sim_results())
   average_graph.scatter()
   average_graph.flip_scatter()
   average_graph.histogram()
 
-  letter_dict_sum = simulate.WordleSimulation(words_list, letter_dict)
+  letter_dict_sum = simulate.WordleSimulation(unused_words_list, letter_dict)
   letter_dict_sum.simulate()
   letter_graph = WordleGraph(letter_dict_sum.get_sim_results())
   letter_graph.scatter()
   letter_graph.flip_scatter()
   letter_graph.histogram()
 
-  location_dict_sum = simulate.WordleSimulation(words_list, letter_dict)
+  location_dict_sum = simulate.WordleSimulation(unused_words_list, location_dict)
   location_dict_sum.simulate()
-  location_graph = WordleGraph(average_dict_sum.get_sim_results())
+  location_graph = WordleGraph(location_dict_sum.get_sim_results())
   location_graph.scatter()
   location_graph.flip_scatter()
   location_graph.histogram()

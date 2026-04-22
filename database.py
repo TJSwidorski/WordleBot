@@ -82,6 +82,36 @@ class WordleDatabase:
             return None
 
     @staticmethod
+    def get_used_words(connection):
+        cursor = connection.cursor()
+        cursor.execute("SELECT list_data FROM lists WHERE list_name = ?", ('Used Words',))
+        row = cursor.fetchone()
+        if row and row[0]:
+            return json.loads(row[0])
+        return []
+
+    @staticmethod
+    def add_used_word(connection, word):
+        word = word.lower()
+        cursor = connection.cursor()
+        cursor.execute("SELECT id, list_data FROM lists WHERE list_name = ?", ('Used Words',))
+        row = cursor.fetchone()
+        if row:
+            used = json.loads(row[1])
+            if word not in used:
+                used.append(word)
+                cursor.execute(
+                    "UPDATE lists SET list_data = ? WHERE id = ?",
+                    (json.dumps(used), row[0])
+                )
+        else:
+            cursor.execute(
+                "INSERT INTO lists (list_name, list_data) VALUES (?, ?)",
+                ('Used Words', json.dumps([word]))
+            )
+        connection.commit()
+
+    @staticmethod
     def retrieve_dict(connection, dict_name):
         """
         Retrieve a specific dictionary from the database.
